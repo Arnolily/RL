@@ -2,6 +2,7 @@ from ttt import TicTacToeEnv as TTT
 import numpy as np
 import math
 import random
+from ttt5 import TicTacToeEnv as TTT5
 
 def calculate_ucb(node_value, node_visits, parent_visits, exploration_weight=1):
     if node_visits == 0:
@@ -161,7 +162,7 @@ def mcts_with_human():
         print("You are O (goes second)")
     
     # Initialize game
-    env = TTT(player=1)  # Always start with player 1 (X)
+    env = TTT5(size=5, player=1)  # Always start with player 1 (X)
     observ, done = env.reset()
     current_player = 1  # X always goes first
     
@@ -193,7 +194,7 @@ def mcts_with_human():
         else:
             # AI turn
             print("\nAI is thinking...")
-            action = mcts(env, num_simulations=1000)  # Pass env directly
+            action = mcts(env, num_simulations=10000)  # Pass env directly
             print(f"AI chose position {action}")
         
         # Make the move
@@ -210,7 +211,7 @@ def mcts_with_human():
         print("You win!")
     elif winner == "O" and human_player == -1:
         print("You win!")
-    elif winner is 'Draw':
+    elif winner == 'Draw':
         print("It's a draw!")
     else:
         print("AI wins!")
@@ -222,7 +223,7 @@ if __name__ == '__main__':
     wins = 0
     lost = 0
     draw = 0
-    mcts_with_human()
+    #mcts_with_human()
     
     for episode in range(100):  # Reduced from 1000 for faster testing
 
@@ -232,12 +233,12 @@ if __name__ == '__main__':
             player = 1
         else:
             player = -1
-        env = TTT(player=player)
+        env = TTT5(size=5, player=player)
         observ, done = env.reset()
         
         while not done and not truncated:
             board = observ
-            action = mcts(env, num_simulations=1000)
+            action = mcts(env, num_simulations=10000)
             if action is None:
                 break
             
